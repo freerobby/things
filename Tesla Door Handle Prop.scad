@@ -1,14 +1,23 @@
 $fn = 100;
 
-thickness = 1.0;
-height = 31;
-width = 80;
+thickness = 0.75;
+height = 32;
+width = 10;
 
-top_arch_radius = 10;
-top_arch_extension_angle = 60;
-bottom_arch_radius = 5;
+top_arch_radius = 11;
+top_arch_extension_angle = 70;
+bottom_arch_radius = 7;
 bottom_arch_extension_angle = 60;
 
+handle_depth = 10;
+handle_reinforcement_depth = 2;
+handle_thickness = 2;
+
+grip_depth = 2;
+grip_height = 4;
+
+rotate([0, -90, 0])
+union() {
 // Base plate
 cube([width, thickness, height]);
 
@@ -27,19 +36,11 @@ translate([0, 0, bottom_arch_radius])
             translate([bottom_arch_radius, 0, 0])
                 square([thickness, width]);
 
-// Handle
-handle_depth = 10;
-handle_reinforcement_depth = 2;
-handle_thickness = 2;
-
-grip_depth = 2;
-grip_height = 4;
-
-// Extension
+// Handle extension
 translate([0, -handle_depth, (height - handle_thickness) / 2])
     cube([width, handle_depth, handle_thickness]);
     
-// Friction grip
+// Handle friction grip
 translate([0, -handle_depth - grip_depth, (height - grip_height) / 2])
     difference() {
         cube([width, grip_depth, grip_height]);
@@ -71,3 +72,4 @@ translate([0, -handle_reinforcement_depth, (height - handle_thickness) / 2 - han
             rotate([0, 90, 0])
                 cylinder(h = width, r = handle_reinforcement_depth);
     }
+}
