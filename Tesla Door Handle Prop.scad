@@ -1,13 +1,13 @@
 $fn = 100;
 
-thickness = 0.75;
+thickness = 1;
 height = 32;
 width = 10;
 
-top_arch_radius = 11;
-top_arch_extension_angle = 70;
+top_arch_radius = 10;
+top_arch_extension_angle = 150;
 bottom_arch_radius = 7;
-bottom_arch_extension_angle = 60;
+bottom_arch_extension_angle = 80;
 
 handle_depth = 10;
 handle_reinforcement_depth = 2;
