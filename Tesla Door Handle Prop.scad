@@ -9,6 +9,9 @@ top_arch_extension_angle = 150;
 bottom_arch_radius = 7;
 bottom_arch_extension_angle = 80;
 
+relief_radius = 1;
+relief_angle = 180;
+
 handle_depth = 10;
 handle_reinforcement_depth = 2;
 handle_thickness = 2;
@@ -19,13 +22,20 @@ grip_height = 4;
 rotate([0, -90, 0])
 union() {
 // Base plate
-cube([width, thickness, height]);
+translate([0, 0, 2 * relief_radius])    
+    cube([width, thickness, height - 4 * relief_radius]);
 
 // Upper grasp
 translate([width, 0, -top_arch_radius + height])
     rotate([90, -90, -90])
         rotate_extrude(angle = top_arch_extension_angle)
             translate([top_arch_radius, 0, 0])
+                square([thickness, width]);
+// Upper grasp relief
+translate([0, 0, -relief_radius + height])
+    rotate([90, -90, 90])
+        rotate_extrude(angle = relief_angle)
+            translate([relief_radius, 0, 0])
                 square([thickness, width]);
                 
 
@@ -34,6 +44,12 @@ translate([0, 0, bottom_arch_radius])
     rotate([90, 90, 90])
         rotate_extrude(angle = bottom_arch_extension_angle)
             translate([bottom_arch_radius, 0, 0])
+                square([thickness, width]);
+// Lower grasp relief
+translate([width, 0, relief_radius])
+    rotate([90, 90, -90])
+        rotate_extrude(angle = relief_angle)
+            translate([relief_radius, 0, 0])
                 square([thickness, width]);
 
 // Handle extension
