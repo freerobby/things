@@ -1,11 +1,11 @@
 $fn = 100;
 
 thickness = 1;
-height = 32;
-width = 10;
+height = 31;
+width = 80;
 
 top_arch_radius = 10;
-top_arch_extension_angle = 150;
+top_arch_extension_angle = 160;
 bottom_arch_radius = 7;
 bottom_arch_extension_angle = 80;
 
