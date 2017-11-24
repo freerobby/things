@@ -15,7 +15,7 @@ backrest_center_clearance = 130;
 left_lip_height = 12;
 left_lip_width = 3;
 
-back_brace_diameter = 20;
+back_brace_diameter = 60;
 
 module shelf() {
     cube([shelf_width, shelf_depth, shelf_height]);
