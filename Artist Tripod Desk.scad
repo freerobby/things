@@ -10,24 +10,45 @@ rear_cutout_depth = 26;
 backrest_depth = 7;
 backrest_height = 40;
 
-backrest_center_clearance = 140;
+backrest_center_clearance = 130;
 
 left_lip_height = 12;
 left_lip_width = 3;
 
+back_brace_diameter = 20;
+
 module shelf() {
     cube([shelf_width, shelf_depth, shelf_height]);
+    
+    back_brace();
+}
+
+module back_brace() {
+    translate([0, shelf_depth - back_brace_diameter,shelf_height])
+    difference() {
+        cube([shelf_width, back_brace_diameter, back_brace_diameter]);
+        
+        translate([0, back_brace_diameter / 2, back_brace_diameter / 2])
+            rotate([0, 90, 0])
+                cylinder(h = shelf_width, d = back_brace_diameter);
+
+        translate([0, -back_brace_diameter / 2, 0])
+            cube([shelf_width, back_brace_diameter, back_brace_diameter]);
+        
+        translate([0, 0, back_brace_diameter / 2])
+            cube([shelf_width, back_brace_diameter, back_brace_diameter]);
+    };
 }
 
 module rear_cutout() {
     translate([(shelf_width-rear_cutout_width)/2, shelf_depth - rear_cutout_depth, 0])
-        cube([rear_cutout_width, rear_cutout_depth, shelf_height]);
+        cube([rear_cutout_width, rear_cutout_depth, shelf_height + back_brace_diameter]);
     
     translate([(shelf_width - rear_cutout_width) / 2, shelf_depth - rear_cutout_depth + (rear_cutout_depth / 2), 0])
-        cylinder(h = shelf_height, d = rear_cutout_depth);
+        cylinder(h = shelf_height + back_brace_diameter, d = rear_cutout_depth);
     
     translate([(shelf_width + rear_cutout_width) / 2, shelf_depth - rear_cutout_depth + (rear_cutout_depth / 2), 0])
-        cylinder(h = shelf_height, d = rear_cutout_depth);
+        cylinder(h = shelf_height + back_brace_diameter, d = rear_cutout_depth);
 }
 
 module backrest() {
@@ -35,9 +56,17 @@ module backrest() {
         difference() {
             cube([shelf_width, backrest_depth, backrest_height]);
             
-            translate([(shelf_width - backrest_center_clearance) / 2, 0, 0])
-                cube([backrest_center_clearance, backrest_depth, backrest_height]);
+            translate([(shelf_width - backrest_center_clearance - backrest_height) / 2, 0, 0])
+                cube([backrest_center_clearance + backrest_height, backrest_depth, backrest_height]);
         }
+        
+    translate([(shelf_width - backrest_center_clearance) / 2 - backrest_height /2, shelf_depth + backrest_depth, backrest_height / 2])
+        rotate([90, 0, 0])
+            cylinder(h = backrest_depth, d = backrest_height);
+        
+    translate([(shelf_width + backrest_center_clearance) / 2 + backrest_height / 2, shelf_depth + backrest_depth, backrest_height / 2])
+        rotate([90, 0, 0])
+            cylinder(h = backrest_depth, d = backrest_height);
 }
 
 module left_lip() {
