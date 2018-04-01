@@ -74,15 +74,54 @@ module left_lip() {
     roundedcube([left_lip_width, shelf_depth, shelf_height + left_lip_height], radius = rounding_radius, apply_to = "ymin");
 }
 
-difference() {
-    shelf();
-    
-    rear_cutout();
+
+module build_shelf() {
+    difference() {
+        shelf();
+        rear_cutout();
+    }
+    backrest();
+    left_lip();
 }
 
-backrest();
-left_lip();
+build_shelf();
 
+palette_width = shelf_width - left_lip_width;
+palette_depth = shelf_depth - rear_cutout_depth;
+palette_thickness = 2;
+palette_shelf_depth = 16;
+palette_shelf_thickness = 2;
+
+num_palette_shelves = 4;
+
+module palette_base() {
+    roundedcube([palette_width, palette_depth, palette_thickness], radius = rounding_radius, apply_to = "zmax");
+}
+module palette_border() {
+    translate([0, 0, palette_thickness])
+        difference() {
+            roundedcube([palette_width, palette_depth, palette_shelf_depth], radius = rounding_radius, apply_to = "zmax");
+            
+            translate([palette_shelf_thickness, palette_shelf_thickness, 0])
+                roundedcube([palette_width - 2 * palette_shelf_thickness, palette_depth - 2 * palette_shelf_thickness, palette_shelf_depth], radius = rounding_radius, apply_to = "zmax");
+        }
+}
+module palette_shelves() {
+    shelf_every = palette_depth / (num_palette_shelves + 1);
+    for (shelf_index = [1:1:num_palette_shelves]) {
+        translate([rounding_radius, shelf_index * shelf_every, palette_thickness])
+            cube([palette_width - 2 * rounding_radius, palette_shelf_thickness, palette_shelf_depth]);
+    }
+}
+
+module build_palette() {
+    palette_base();
+    palette_border();
+    palette_shelves();
+}
+
+translate([0, -shelf_depth - 10, 0])
+build_palette();
 
 
 // More information: https://danielupshaw.com/openscad-rounded-corners/
