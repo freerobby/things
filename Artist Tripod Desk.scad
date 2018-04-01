@@ -7,7 +7,7 @@ rear_cutout_depth = 26;
 
 backrest_depth = 7;
 backrest_height = 40;
-
+    
 backrest_center_clearance = 120;
 
 left_lip_height = 12;
