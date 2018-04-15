@@ -84,8 +84,6 @@ module build_shelf() {
     left_lip();
 }
 
-build_shelf();
-
 palette_width = shelf_width - left_lip_width;
 palette_depth = shelf_depth - rear_cutout_depth;
 palette_thickness = 1;
@@ -160,7 +158,8 @@ module build_palette() {
     palette_shelves();
 }
 
-translate([0, -shelf_depth - 10, 0])
+// Build one at a time:
+//build_shelf();
 build_palette();
 
 
