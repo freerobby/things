@@ -106,7 +106,7 @@ module palette_border() {
             roundedcube([palette_width, palette_depth, palette_shelf_depth], radius = rounding_radius, apply_to = "zmax");
             
             translate([palette_shelf_thickness, palette_shelf_thickness, 0])
-                roundedcube([palette_width - 2 * palette_shelf_thickness, palette_depth - 2 * palette_shelf_thickness, palette_shelf_depth], radius = rounding_radius, apply_to = "zmax");
+                cube([palette_width - 2 * palette_shelf_thickness, palette_depth - 2 * palette_shelf_thickness, palette_shelf_depth]);
         }
 }
 
