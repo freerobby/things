@@ -89,6 +89,7 @@ build_shelf();
 palette_width = shelf_width - left_lip_width;
 palette_depth = shelf_depth - rear_cutout_depth;
 palette_thickness = 1;
+rounding_radius = 1;
 palette_shelf_depth = 16;
 palette_shelf_thickness = 1;
 palette_wire_hole_spacing = 8;
@@ -100,7 +101,7 @@ module palette_base() {
     roundedcube([palette_width, palette_depth, palette_thickness], radius = rounding_radius, apply_to = "zmax");
 }
 module palette_border() {
-    translate([0, 0, palette_thickness])
+    translate([0, 0, palette_thickness + rounding_radius])
         difference() {
             roundedcube([palette_width, palette_depth, palette_shelf_depth], radius = rounding_radius, apply_to = "zmax");
             
@@ -108,11 +109,35 @@ module palette_border() {
                 roundedcube([palette_width - 2 * palette_shelf_thickness, palette_depth - 2 * palette_shelf_thickness, palette_shelf_depth], radius = rounding_radius, apply_to = "zmax");
         }
 }
+
+module vertical_reinforcement(length, radius, spacing) {
+    module single_reinforcement() {
+        difference() {
+            cube([length, radius, radius]);
+            
+            translate([0, 0, radius])
+            rotate([0, 90 ,0])
+                cylinder(h = length, r = radius);
+        }
+    }
+    
+    translate([0, -radius, 0]) {
+        single_reinforcement();
+        // .001 gets rid of warning; ditch that when openscad fixed
+        translate([length, 2 * radius + spacing - .001, 0])
+            rotate([0, 0, 180])
+                single_reinforcement();
+    }
+}
+
 module palette_shelves() {
     shelf_every = palette_depth / (num_palette_shelves + 1);
     for (shelf_index = [1:1:num_palette_shelves]) {
-        translate([rounding_radius, shelf_index * shelf_every, palette_thickness])
+        translate([rounding_radius, shelf_index * shelf_every, palette_thickness + rounding_radius]) {
             cube([palette_width - 2 * rounding_radius, palette_shelf_thickness, palette_shelf_depth]);
+            
+            vertical_reinforcement(palette_width - 2 * rounding_radius, 2, palette_shelf_thickness);
+        }
     }
 }
 
@@ -120,7 +145,7 @@ module palette_wire_holes() {
     offset = (palette_width - rear_cutout_width) / 2;
     hole_cutout_offsets = [offset, offset + palette_wire_hole_spacing, palette_width - offset, palette_width - offset - palette_wire_hole_spacing];
     for(this_offset = hole_cutout_offsets) {
-        translate([this_offset, 2 * palette_shelf_thickness, palette_thickness + palette_wire_hole_diameter])
+        translate([this_offset, 2 * palette_shelf_thickness, palette_thickness + palette_wire_hole_diameter/2 + rounding_radius])
             rotate([90, 0, 0])
                 cylinder(h = palette_shelf_thickness * 4, d = palette_wire_hole_diameter);
     }
