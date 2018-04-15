@@ -88,10 +88,10 @@ build_shelf();
 
 palette_width = shelf_width - left_lip_width;
 palette_depth = shelf_depth - rear_cutout_depth;
-palette_thickness = 2;
+palette_thickness = 1;
 palette_shelf_depth = 16;
-palette_shelf_thickness = 2;
-palette_wire_hole_spacing = 6;
+palette_shelf_thickness = 1;
+palette_wire_hole_spacing = 8;
 palette_wire_hole_diameter = 2;
 
 num_palette_shelves = 4;
@@ -126,10 +126,6 @@ module palette_wire_holes() {
     }
 }
 
-module palette_wire_hole_plug() {
-    cylinder(h = palette_shelf_thickness, d = palette_wire_hole_diameter);
-}
-
 module build_palette() {
     palette_base();
     difference() {
@@ -137,11 +133,6 @@ module build_palette() {
         palette_wire_holes();
     };
     palette_shelves();
-    
-    for(i = [0:1:3]) {
-        translate([10 * i, -5, 0])
-            palette_wire_hole_plug();
-    }
 }
 
 translate([0, -shelf_depth - 10, 0])
