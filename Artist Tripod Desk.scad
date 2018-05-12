@@ -1,11 +1,11 @@
 shelf_width = 271;
 shelf_depth = 178;
-shelf_height = 5;
+shelf_height = 3;
 
 rear_cutout_width = 165;
-rear_cutout_depth = 26;
+rear_cutout_depth = 31;
 
-backrest_depth = 5;
+backrest_depth = 3;
 backrest_height = 30;
     
 backrest_center_clearance = 120;
