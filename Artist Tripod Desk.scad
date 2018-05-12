@@ -85,7 +85,7 @@ palette_width = shelf_width - left_lip_width;
 palette_depth = shelf_depth - rear_cutout_depth;
 palette_thickness = 1;
 palette_shelf_depth = 16;
-palette_shelf_thickness = 1;
+palette_shelf_thickness = 1.5;
 palette_wire_hole_spacing = 8;
 palette_wire_hole_diameter = 2;
 
