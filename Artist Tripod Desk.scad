@@ -132,6 +132,14 @@ module palette_shelves() {
             
             vertical_reinforcement(palette_width, 2, palette_shelf_thickness);
         }
+        translate([palette_thickness, shelf_index * shelf_every + palette_shelf_thickness, palette_thickness]) {
+            rotate([0, -90, 180])
+                vertical_reinforcement(palette_shelf_depth, 2, palette_shelf_thickness);
+        }
+        translate([palette_thickness + palette_width - 2 * palette_shelf_thickness, shelf_index * shelf_every, palette_thickness]) {
+            rotate([0, -90, 0])
+                vertical_reinforcement(palette_shelf_depth, 2, palette_shelf_thickness);
+        }
     }
 }
 
@@ -155,8 +163,8 @@ module build_palette() {
 }
 
 // Build one at a time:
-build_shelf();
-//build_palette();
+//build_shelf();
+build_palette();
 
 
 // More information: https://danielupshaw.com/openscad-rounded-corners/
