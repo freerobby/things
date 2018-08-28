@@ -1,16 +1,16 @@
-file_rest_width = 25;
+``file_rest_width = 25;
 ski_rest_width = 30;
 file_rest_thickness = 3.5;
 ski_rest_thickness = 2.5;
 height = 60;
-angle = 92;
 text_height = 9;
 text_thickness = 0.25;
 
 reinforcement_width = 14;
 reinforcement_proportion = 1.0;
 
-color("green")
+module tool(angle) {
+    color("green")
 difference() {
     translate([0, -reinforcement_width * sqrt(2) / 2, (height - height * reinforcement_proportion) / 2])
         rotate([0, 0, 45])
@@ -47,3 +47,10 @@ translate([ski_rest_width - 1.25 * text_height, ski_rest_thickness, 1])
                 size = text_height,
                 halign = "center"
             );
+}
+
+for (angle_offset = [0:1:4]) {
+    translate([(ski_rest_width + 3) * angle_offset, 0, 0])
+        rotate([90, 0, 0])
+            tool(90 + angle_offset);
+}
