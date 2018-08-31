@@ -4,8 +4,6 @@ vial_inner_diameter = 13.25;
 lip_height = 0.5;
 centering_ring_height = 1.0;
 depth_into_vial = 55;
-airseal_absorption_width = 0.75;
-airseal_absorption_height = 0.25;
 
 converter_metal_inner_diameter = 2.0625;
 converter_metal_outer_diameter = 3.5;
@@ -36,14 +34,6 @@ module fitting() {
             translate([0, 0, converter_plastic_height + fitting_excess_height])
                 cylinder(h = lip_height, d = vial_outer_diameter);
         }
-        
-        // Cut out an inset at the top edge to absorb the pressure from the screw-cap air seal.
-        translate([0, 0, fitting_height - airseal_absorption_height])
-            difference() {
-                cylinder(h = airseal_absorption_height, d = vial_inner_diameter);
-                cylinder(h = airseal_absorption_height, d = vial_inner_diameter - airseal_absorption_width);
-            }
-        
         // Cut out space for metal converter insert
         translate([0, 0, fitting_height - converter_metal_height])
             cylinder(h = converter_metal_height, d = converter_metal_outer_diameter);
