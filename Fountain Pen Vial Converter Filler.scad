@@ -1,16 +1,18 @@
 $fn = 50;
-vial_outer_diameter = 15;
-vial_inner_diameter = 14;
+vial_outer_diameter = 15.5;
+vial_inner_diameter = 13.25;
 lip_height = 0.5;
 centering_ring_height = 1.0;
 depth_into_vial = 55;
+airseal_absorption_width = 0.75;
+airseal_absorption_height = 0.25;
 
 converter_metal_inner_diameter = 2.0625;
 converter_metal_outer_diameter = 3.5;
 converter_metal_height = 6.0; // Err slightly small here for a tight fit to create the vacuum.
 
 converter_plastic_inner_diameter = 6.0;
-converter_plastic_outer_diameter = 6.75;
+converter_plastic_outer_diameter = 7.0;
 converter_plastic_height = 14.0; // Err large here for a tight fit with the metal insert
 
 fitting_excess_height = 1.0 - lip_height; // We want a total of 1mm on the bottom of the fitting
@@ -34,6 +36,13 @@ module fitting() {
             translate([0, 0, converter_plastic_height + fitting_excess_height])
                 cylinder(h = lip_height, d = vial_outer_diameter);
         }
+        
+        // Cut out an inset at the top edge to absorb the pressure from the screw-cap air seal.
+        translate([0, 0, fitting_height - airseal_absorption_height])
+            difference() {
+                cylinder(h = airseal_absorption_height, d = vial_inner_diameter);
+                cylinder(h = airseal_absorption_height, d = vial_inner_diameter - airseal_absorption_width);
+            }
         
         // Cut out space for metal converter insert
         translate([0, 0, fitting_height - converter_metal_height])
