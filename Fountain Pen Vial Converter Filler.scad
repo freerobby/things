@@ -1,15 +1,15 @@
 $fn = 100;
 vial_outer_diameter = 16.0;
-vial_inner_diameter = 13.25;
+vial_inner_diameter = 14.0;
 lip_height = 0.5;
 centering_ring_height = 1.0;
 depth_into_vial = 55;
 
 converter_metal_inner_diameter = 2.25;
-converter_metal_outer_diameter = 3.5;
+converter_metal_outer_diameter = 3.75;
 converter_metal_height = 6.0; // Err slightly small here for a tight fit to create the vacuum.
 
-converter_plastic_inner_diameter = 6.0;
+converter_plastic_inner_diameter = 5.75;
 converter_plastic_outer_diameter = 7.5;
 converter_plastic_height = 14.0; // Err large here for a tight fit with the metal insert
 
