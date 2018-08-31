@@ -6,12 +6,12 @@ centering_ring_height = 1.0;
 depth_into_vial = 55;
 
 converter_metal_inner_diameter = 2.25;
-converter_metal_outer_diameter = 3.75;
-converter_metal_height = 6.0; // Err slightly small here for a tight fit to create the vacuum.
+converter_metal_outer_diameter = 3.5;
+converter_metal_height = 1.0; // Only enough to get steel piece to lock; reduces inkflow capacity
 
-converter_plastic_inner_diameter = 5.75;
+converter_plastic_inner_diameter = 5.5;
 converter_plastic_outer_diameter = 7.5;
-converter_plastic_height = 14.0; // Err large here for a tight fit with the metal insert
+converter_plastic_height = 8.0; // Err large here for a tight fit with the metal insert
 
 fitting_excess_height = 1.0 - lip_height; // We want a total of 1mm on the bottom of the fitting
 fitting_excess_diameter = 2; // 1 mm wall all the way around
