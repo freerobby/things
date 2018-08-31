@@ -1,4 +1,4 @@
-$fn = 50;
+$fn = 100;
 vial_outer_diameter = 15.5;
 vial_inner_diameter = 13.25;
 lip_height = 0.5;
@@ -62,8 +62,14 @@ module fitting() {
 }
 
 module hose() {
+    straight_height = hose_height - hose_outer_diameter / 2;
     difference() {
-        cylinder(h = hose_height, d = hose_outer_diameter);
+        union() {
+            translate([0, 0, hose_outer_diameter / 2])
+                cylinder(h = straight_height, d = hose_outer_diameter);
+            translate([0, 0, hose_outer_diameter / 2])
+                sphere(d = hose_outer_diameter);
+        }
         cylinder(h = hose_height, d = hose_inner_diameter);
     }
 }
