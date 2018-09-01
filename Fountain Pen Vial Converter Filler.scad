@@ -35,6 +35,12 @@ module fitting() {
         translate([0, 0, fitting_height - converter_plastic_height]) {
             difference() {
                 cylinder(h = converter_plastic_height, d = converter_plastic_outer_diameter);
+                
+                // Keep the top half constant
+                translate([0, 0, converter_plastic_height / 2])
+                    cylinder(h = converter_plastic_height / 2, d = converter_plastic_inner_diameter);
+                
+                // Contour the bottom half to create a fit-mount
                 cylinder(
                     h = converter_plastic_height,
                     d1 = converter_plastic_outer_diameter,
