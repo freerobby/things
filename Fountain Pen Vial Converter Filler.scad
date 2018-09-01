@@ -5,12 +5,9 @@ lip_height = 0.5;
 centering_ring_height = 1.0;
 depth_into_vial = 55;
 
-converter_metal_inner_diameter = 2.25;
-converter_metal_outer_diameter = 3.5;
-converter_metal_height = 1.0; // Only enough to get steel piece to lock; reduces inkflow capacity
-
 converter_plastic_inner_diameter = 5.75;
 converter_plastic_outer_diameter = 7.5;
+converter_plastic_fit_delta = 0.5; // Difference between thickness at bottom and thickness at top for friction fit
 converter_plastic_height = 8.0; // Err large here for a tight fit with the metal insert
 
 fitting_excess_height = 1.0 - lip_height; // We want a total of 1mm on the bottom of the fitting
@@ -34,15 +31,17 @@ module fitting() {
             translate([0, 0, converter_plastic_height + fitting_excess_height])
                 cylinder(h = lip_height, d = vial_outer_diameter);
         }
-        // Cut out space for metal converter insert
-        translate([0, 0, fitting_height - converter_metal_height])
-            cylinder(h = converter_metal_height, d = converter_metal_outer_diameter);
     
         // Cut out space for plastic converter insert
         translate([0, 0, fitting_height - converter_plastic_height]) {
             difference() {
                 cylinder(h = converter_plastic_height, d = converter_plastic_outer_diameter);
-                cylinder(h = converter_plastic_height, d = converter_plastic_inner_diameter);
+                
+                cylinder(
+                    h = converter_plastic_height,
+                    d1 = converter_plastic_inner_diameter + converter_plastic_fit_delta / 2,
+                    d2 = converter_plastic_inner_diameter - converter_plastic_fit_delta / 2
+                );
             }
         }
         
