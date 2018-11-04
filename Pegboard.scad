@@ -1,7 +1,7 @@
-$fn = 10;
+$fn = 25;
 
-width_in_inches = 4;
-length_in_inches = 4;
+width_in_inches = 3;
+length_in_inches = 3;
 
 height = 4.7625; // 3/16"
 hole_diameter = 6;
@@ -10,14 +10,19 @@ accessory_hole_diameter = 4;
 accessory_hole_inset_diameter = 8;
 accessory_hole_inset_height = 3;
 
+spacer_height = 13;
+spacer_diameter = 8;
+
 
 MM_PER_INCH = 25.4;
 width = width_in_inches * MM_PER_INCH;
 length = length_in_inches * MM_PER_INCH;
 
-board();
+//board();
+//spacer();
+screw_spacer();
 
-// Draw the board
+
 module board() {
     difference() {
         cube([width, length, height]);
@@ -27,7 +32,6 @@ module board() {
     }
 }
 
-// Draw the holes
 module holes() {
     for (row = [1 : 1 : width_in_inches]) {
         for (col = [1 : 1 : length_in_inches]) {
@@ -47,4 +51,45 @@ module accessory_holes() {
                 cylinder(h = accessory_hole_inset_height, d = accessory_hole_inset_diameter, center = true);
         }
     }
+}
+
+module spacer() {
+    hole_length = height - accessory_hole_inset_height;
+    horizontal_overlap = 1;
+    
+    // Spacer
+    color("cyan")
+        cylinder(h = spacer_height, d = spacer_diameter);
+    
+    // Latch
+    translate([0, 0, spacer_height])
+        difference() {
+            union() {
+                color("yellow")
+                cylinder(h = hole_length, d = accessory_hole_diameter);
+                
+                translate([horizontal_overlap / 3, 0, hole_length + horizontal_overlap])
+                    color("red")
+                        sphere(d = accessory_hole_diameter);
+                translate([-horizontal_overlap / 3, 0, hole_length + horizontal_overlap])
+                    color("red")
+                        sphere(d = accessory_hole_diameter);
+            }
+            
+            translate([-horizontal_overlap / 2, -accessory_hole_diameter / 2, 0])
+                cube([horizontal_overlap, accessory_hole_diameter, hole_length + accessory_hole_inset_height]);
+        }
+}
+
+module screw_spacer() {
+    hole_length = height - accessory_hole_inset_height;
+    horizontal_overlap = 1;
+    
+    // Spacer
+    color("cyan")
+        difference() {
+            cylinder(h = spacer_height, d = spacer_diameter);
+            
+            cylinder(h = spacer_height, d = accessory_hole_diameter);
+        }
 }
