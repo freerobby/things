@@ -13,14 +13,15 @@ accessory_hole_inset_height = 3;
 spacer_height = 13;
 spacer_diameter = 8;
 
+hollow_width = 8;
+hollow_area_thickness = 2;
+
 
 MM_PER_INCH = 25.4;
 width = width_in_inches * MM_PER_INCH;
 length = length_in_inches * MM_PER_INCH;
 
 board();
-//screw_spacer();
-//spacer();
 
 module screw_spacers() {
     for (i = [1 : 1 : 4]) {
@@ -37,6 +38,61 @@ module board() {
       
         holes();
         accessory_holes();
+        hollow_board();
+    }
+}
+
+module hollow_board() {
+    module draw_row(row) {
+        hollow_length = min(width_in_inches - row - 0.5, length_in_inches - 1) * MM_PER_INCH * sqrt(2);
+        
+        translate([(row - 0.5) * MM_PER_INCH, 0, 0])
+            translate([MM_PER_INCH * sqrt(2) / 3, MM_PER_INCH * sqrt(2) / 3, 0])
+                rotate([0, 0, 45])
+                    translate([hollow_length / 2, 0, 0]) {
+                        
+                        cube([hollow_length, hollow_width, height], center = true);
+                        translate([-hollow_length / 2, 0, 0])
+                            cylinder(h = height, d = hollow_width, center = true);
+                        translate([hollow_length / 2, 0, 0])
+                            cylinder(h = height, d = hollow_width, center = true);
+                    }
+    }
+    
+    module draw_col(col, cols) {
+        hollow_length = min(length_in_inches - (cols - col + 1) - 0.5, width_in_inches - 1) * MM_PER_INCH * sqrt(2);
+        
+        translate([0, (cols - col + 0.5) * MM_PER_INCH, 0])
+            translate([MM_PER_INCH * sqrt(2) / 3, MM_PER_INCH * sqrt(2) / 3, 0])
+                rotate([0, 0, 45])
+                    translate([hollow_length / 2, 0, 0]) {
+                        cube([hollow_length, hollow_width, height], center = true);
+                        translate([-hollow_length / 2, 0, 0])
+                            cylinder(h = height, d = hollow_width, center = true);
+                        translate([hollow_length / 2, 0, 0])
+                            cylinder(h = height, d = hollow_width, center = true);
+                    }
+
+    }
+    
+    rows = width_in_inches - 1;
+    for (row = [1 : 1 : rows]) {
+        translate([0, 0, height / 2 + hollow_area_thickness])
+        draw_row(row);
+        
+        translate([0, length, height / 2 + hollow_area_thickness])
+            rotate([180, 0, 0])
+                draw_row(row);
+    }
+    
+    cols = length_in_inches - 1;
+    for (col = [1 : 1 : cols]) {
+        translate([0, 0, height / 2 + hollow_area_thickness])
+        draw_col(col, cols);
+        
+        translate([0, length, height / 2 + hollow_area_thickness])
+            rotate([180, 0, 0])
+                draw_col(col, cols);
     }
 }
 
