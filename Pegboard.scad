@@ -1,7 +1,7 @@
 $fn = 15;
 
 width_in_inches = 10;
-length_in_inches = 10;
+length_in_inches = 9;
 
 height = 4.5;
 hole_diameter = 6;
@@ -21,7 +21,30 @@ MM_PER_INCH = 25.4;
 width = width_in_inches * MM_PER_INCH;
 length = length_in_inches * MM_PER_INCH;
 
-board();
+joiner_n(4);
+
+module joiner_n(n) {
+    max_index = sqrt(n) - 1;
+    for (x = [0 : 1 : max_index]) {
+        for (y = [0 : 1 : max_index]) {
+            translate([x * MM_PER_INCH, y * MM_PER_INCH, 0])
+                spacer();
+        }
+    }
+    
+    translate([-spacer_diameter / 2, 0, 0])
+        cube([max_index * MM_PER_INCH + spacer_diameter, max_index * MM_PER_INCH, spacer_height / 2]);
+    translate([0, -spacer_diameter / 2, 0])
+        cube([max_index * MM_PER_INCH, max_index * MM_PER_INCH + spacer_diameter, spacer_height / 2]);
+}
+
+module joiner_16() {
+    joiner_n(16);
+}
+
+module joiner_4() {
+    joiner_n(4);
+}
 
 module screw_spacers() {
     for (i = [1 : 1 : 4]) {
@@ -38,7 +61,7 @@ module board() {
       
         holes();
         accessory_holes();
-        hollow_board();
+        //hollow_board();
     }
 }
 
