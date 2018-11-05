@@ -1,13 +1,13 @@
-$fn = 25;
+$fn = 15;
 
-width_in_inches = 3;
-length_in_inches = 3;
+width_in_inches = 10;
+length_in_inches = 10;
 
-height = 4.7625; // 3/16"
+height = 4.5;
 hole_diameter = 6;
 
 accessory_hole_diameter = 4;
-accessory_hole_inset_diameter = 8;
+accessory_hole_inset_diameter = 9;
 accessory_hole_inset_height = 3;
 
 spacer_height = 13;
@@ -18,9 +18,17 @@ MM_PER_INCH = 25.4;
 width = width_in_inches * MM_PER_INCH;
 length = length_in_inches * MM_PER_INCH;
 
-//board();
+board();
+//screw_spacer();
 //spacer();
-screw_spacer();
+
+module screw_spacers() {
+    for (i = [1 : 1 : 4]) {
+        translate([-spacer_diameter / 2 - 3, i * (spacer_diameter + 3), 0]) {
+            screw_spacer();
+        }
+    }
+}
 
 
 module board() {
@@ -82,9 +90,6 @@ module spacer() {
 }
 
 module screw_spacer() {
-    hole_length = height - accessory_hole_inset_height;
-    horizontal_overlap = 1;
-    
     // Spacer
     color("cyan")
         difference() {
