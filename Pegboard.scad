@@ -21,7 +21,18 @@ MM_PER_INCH = 25.4;
 width = width_in_inches * MM_PER_INCH;
 length = length_in_inches * MM_PER_INCH;
 
-joiner_n(4);
+coupler();
+//board();
+
+module coupler() {
+    spacer();
+    
+    translate([2 * MM_PER_INCH, 0, 0])
+        spacer();
+    
+    translate([0, -spacer_diameter / 2, 0])
+        cube([2 * MM_PER_INCH, spacer_diameter, spacer_height]);
+}
 
 module joiner_n(n) {
     max_index = sqrt(n) - 1;
@@ -43,7 +54,18 @@ module joiner_16() {
 }
 
 module joiner_4() {
-    joiner_n(4);
+    max_index = 2;
+    for (x = [0 : 2 : max_index]) {
+        for (y = [0 : 2 : max_index]) {
+            translate([x * MM_PER_INCH, y * MM_PER_INCH, 0])
+                spacer();
+        }
+    }
+    
+    translate([-spacer_diameter / 2, 0, 0])
+        cube([max_index * MM_PER_INCH + spacer_diameter, max_index * MM_PER_INCH, spacer_height / 2]);
+    translate([0, -spacer_diameter / 2, 0])
+        cube([max_index * MM_PER_INCH, max_index * MM_PER_INCH + spacer_diameter, spacer_height / 2]);
 }
 
 module screw_spacers() {
