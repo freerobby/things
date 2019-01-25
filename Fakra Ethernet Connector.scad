@@ -2,16 +2,19 @@ $fn = 50;
 
 connection_bottom_thickness = 1;
 
-pin_diameter = 0.4;
+pin_diameter = 1.0;
 pin_center_spacing = 2;
 
-alignment_cylinder_inner_diameter = 3.75;
+alignment_cylinder_inner_diameter = 3.5;
 alignment_cylinder_outer_diameter = 4.5;
 alignment_cylinder_height = 8;
 
 housing_width = 12;
 housing_length = 13;
 housing_height = 10;
+
+grab_diameter = housing_length * sqrt(2);
+grab_thickness = 2;
 
 module wire_paths() {
     translate([-pin_center_spacing / 2, -pin_center_spacing / 2, 0])
@@ -32,10 +35,12 @@ module connector_guide() {
 
 module connector() {
     // Alignment ring around connections
+    /*
     difference() {
         cylinder(h = alignment_cylinder_height, d = alignment_cylinder_outer_diameter);
         cylinder(h = alignment_cylinder_height, d = alignment_cylinder_inner_diameter);
     }
+    */
 
     // Bottom/base of connections
     difference() {
@@ -44,17 +49,26 @@ module connector() {
         wire_paths();
     }
     
+    /*
     connector_guide();
     rotate([0, 0, -90])
         connector_guide();
     rotate([0, 0, 90])
         connector_guide();
+    */
 }
 
 housing_lower_thickness = 1;
 housing_cutout_diameter = 9.5;
 
 module housing() {
+    difference() {
+        cylinder(h = grab_thickness, d = grab_diameter);
+        wire_paths();
+        // Cut out upper recess latch
+        translate([0, housing_cutout_diameter / 2, housing_height / 2])
+            cube([3.25, 7/2, housing_height], center = true);
+    }
     difference() {
         translate([0, 0, housing_height / 2])
             cube([housing_width, housing_length, housing_height], center = true);
@@ -82,7 +96,7 @@ module housing() {
         
         // Cut out upper recess
         translate([0, housing_cutout_diameter / 2, housing_height / 2])
-            cube([3.25, 5/2, housing_height], center = true);
+            cube([3.25, 7/2, housing_height], center = true);
         
         // Cut out wire pass-thru
         wire_paths();
