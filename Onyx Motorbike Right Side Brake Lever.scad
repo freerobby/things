@@ -4,6 +4,7 @@ translate([8, 27, 10])
         import("/Users/robby/Downloads/Derbi_brake_lever/files/brake_lever_short.stl");
 */
         
+$fn = 100;
 vertical_height = 9;
  
  
@@ -18,7 +19,7 @@ linear_extrude(height = vertical_height) {
         
         // Cutout for mounting bolt
         translate([8, 27])
-            circle(r = 4);
+            circle(r = 4.5);
     }
     
     // Hand anchor on right
