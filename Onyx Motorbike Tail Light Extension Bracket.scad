@@ -60,5 +60,61 @@ module draw_lower_brace() {
         }
 }
 
-draw_upper_brace();
-draw_lower_brace();
+wire_guard_outer_diameter = 25.4;
+wire_guard_thickness = 4;
+wire_guard_total_height = 140;
+wire_guard_cutout_width = 6;
+wire_guard_total_length = 270;
+
+module wire_guard_2d_base(rotation_angle = 0) {
+    translate([wire_guard_outer_diameter / 2, 0, 0])
+    rotate([0, 0, rotation_angle])
+    difference() {
+        circle(d = wire_guard_outer_diameter);
+        circle(d = wire_guard_outer_diameter - wire_guard_thickness);
+        translate([0, -wire_guard_cutout_width / 2])
+            square([wire_guard_outer_diameter, wire_guard_cutout_width]);
+    }
+}
+
+module draw_wire_guard() {
+    // Lower curve near bracket
+    translate([wire_guard_outer_diameter / 2, 0, wire_guard_outer_diameter]) {
+        rotate([0, 90, 0]) {
+            rotate_extrude(angle = 90) {
+                wire_guard_2d_base(90);
+            }
+        }
+    }
+    
+    // Upward pipe from bracket
+    upper_section_from_bracket_height = wire_guard_total_height - 2 * wire_guard_outer_diameter;
+    translate([0, wire_guard_outer_diameter / 2, wire_guard_outer_diameter]) {
+        linear_extrude(height = upper_section_from_bracket_height) {
+            wire_guard_2d_base();
+        }
+    }
+    
+    // Upper curve away from bracket
+    translate([wire_guard_outer_diameter / 2, wire_guard_outer_diameter, wire_guard_outer_diameter + upper_section_from_bracket_height]) {
+        rotate([0, -90, 0]) {
+            rotate_extrude(angle = -90) {
+                wire_guard_2d_base(-90);
+            }
+        }
+    }
+    
+    // Lateral pipe into frame
+    lateral_pipe_distance = wire_guard_total_length - wire_guard_outer_diameter;
+    translate([0, wire_guard_total_length - wire_guard_outer_diameter + wire_guard_outer_diameter, wire_guard_outer_diameter / 2 + upper_section_from_bracket_height + wire_guard_outer_diameter]) {
+        rotate([90, 0, 0]) {
+            linear_extrude(height = lateral_pipe_distance) {
+                wire_guard_2d_base();
+            }
+        }
+    }
+}
+
+//draw_upper_brace();
+//draw_lower_brace();
+draw_wire_guard();
