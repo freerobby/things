@@ -132,77 +132,29 @@ module join() {
 }
 
 
-print_length = wall_length - back_crop - front_crop;
-module print1() {
-    cover();
-}
-
-module print2_base() {
-    translate([0, -front_crop, 0])
-    cover();
-    translate([0, print_length / 2])
-        join();
-}
-
-module print2_1() {
+module print(piece, pieces) {
+    print_length = wall_length - back_crop - front_crop;
+    
+    module base() {
+        translate([0, -front_crop, 0])
+            cover();
+        for (i = [1 : (pieces - 1) ]) {
+            translate([0, i * print_length / pieces])
+                join();
+        }
+    }
+    
     intersection() {
-        print2_base();
+        base();
         
-        translate([0, 0, 0])
-            cube([wall_thickness * 2 + wall_spacing, print_length / 2, wall_height + top_height]);
+        translate([0, (piece - 1) * print_length / pieces, 0])
+            cube([wall_thickness * 2 + wall_spacing, print_length / pieces, wall_height + top_height]);
     }
 }
 
-module print2_2() {
-    intersection() {
-        print2_base();
-        
-        translate([0, print_length / 2, 0])
-            cube([wall_thickness * 2 + wall_spacing, print_length / 2, wall_height + top_height]);
-    }
-};
-
-//print2_1();
-//print2_2();
-
-module print3_base() {
-    translate([0, -front_crop, 0])
-    cover();
-    translate([0, print_length / 3])
-        join();
-    translate([0, 2 * print_length / 3])
-        join();
-}
-
-module print3_1() {
-    intersection() {
-        print3_base();
-        
-        translate([0, 0, 0])
-            cube([wall_thickness * 2 + wall_spacing, print_length / 3, wall_height + top_height]);
-    }
-}
-
-module print3_2() {
-    intersection() {
-        print3_base();
-        
-        translate([0, print_length / 3, 0])
-            cube([wall_thickness * 2 + wall_spacing, print_length / 3, wall_height + top_height]);
-    }
-};
-
-module print3_3() {
-    intersection() {
-        print3_base();
-        
-        translate([0, 2 * print_length / 3, 0])
-            cube([wall_thickness * 2 + wall_spacing, print_length / 3, wall_height + top_height]);
-    }
-};
-//print3_1();
-//print3_2();
-print3_3();
+print(1, 3);
+print(2, 3);
+print(3, 3);
 
 
 
