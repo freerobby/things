@@ -165,6 +165,45 @@ module print2_2() {
 //print2_1();
 //print2_2();
 
+module print3_base() {
+    translate([0, -front_crop, 0])
+    cover();
+    translate([0, print_length / 3])
+        join();
+    translate([0, 2 * print_length / 3])
+        join();
+}
+
+module print3_1() {
+    intersection() {
+        print3_base();
+        
+        translate([0, 0, 0])
+            cube([wall_thickness * 2 + wall_spacing, print_length / 3, wall_height + top_height]);
+    }
+}
+
+module print3_2() {
+    intersection() {
+        print3_base();
+        
+        translate([0, print_length / 3, 0])
+            cube([wall_thickness * 2 + wall_spacing, print_length / 3, wall_height + top_height]);
+    }
+};
+
+module print3_3() {
+    intersection() {
+        print3_base();
+        
+        translate([0, 2 * print_length / 3, 0])
+            cube([wall_thickness * 2 + wall_spacing, print_length / 3, wall_height + top_height]);
+    }
+};
+//print3_1();
+//print3_2();
+print3_3();
+
 
 
 latch_top_width = rubber_cutout_radius * 4;
@@ -229,5 +268,5 @@ module latch_top() {
     }
 }
 
-color("blue")
-latch_bottom();
+//color("blue")
+//latch_bottom();
