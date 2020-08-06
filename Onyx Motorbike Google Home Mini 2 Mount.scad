@@ -55,15 +55,17 @@ module offset() {
 }
 
 module clasp() {
-    translate([0, 0, clasp_spacing])
-    linear_extrude(clasp_grasp_thickness) {
-        circle(d = clasp_catch_diameter);
-    }
+    // Upper portion
+    translate([0, 0, clasp_spacing - handlebar_mount_thickness])
+        linear_extrude(clasp_grasp_thickness) {
+            circle(d = clasp_catch_diameter);
+        }
     
+    // Lower portion
     translate([0, 0, -handlebar_mount_thickness])
-    linear_extrude(clasp_spacing + handlebar_mount_thickness) {
-        circle(d = clasp_insert_diameter);
-    }
+        linear_extrude(clasp_spacing) {
+            circle(d = clasp_insert_diameter);
+        }
 }
 
 module print() {
