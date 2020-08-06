@@ -4,6 +4,7 @@ handlebar_diameter = 22;
 handlebar_mount_thickness = 3;
 
 handlebar_offset = 10;
+handlebar_offset_length = 55;
 
 clasp_insert_diameter = 4;
 clasp_catch_diameter = 9;
@@ -54,6 +55,22 @@ module offset() {
     }
 }
 
+module angled_offset() {
+    h = handlebar_diameter / 2 + handlebar_offset;
+    extra_thickness = 2;
+
+    rotate([90, 0, 90]) {
+    linear_extrude(mount_width) {
+        polygon([
+            [handlebar_diameter / 2 + handlebar_mount_thickness,   0],
+            [handlebar_mount_thickness + handlebar_offset_length,  h],
+            [handlebar_offset_length - extra_thickness,            h],
+            [handlebar_diameter / 2,                               extra_thickness],
+        ]);
+    }
+}
+}
+
 module clasp() {
     // Upper portion
     translate([0, 0, clasp_spacing - handlebar_mount_thickness])
@@ -75,6 +92,8 @@ module print() {
     }
     translate([0, 0, handlebar_diameter / 2 + handlebar_offset])
         offset();
+    translate([-mount_width / 2, 0, 0])
+        angled_offset();
     translate([0, 0, handlebar_diameter / 2 + handlebar_mount_thickness + handlebar_offset])
         clasp();
 }
