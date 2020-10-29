@@ -1,9 +1,9 @@
 $fn = 200;
 
-large_filter_diameter = (5 + 3/32) * 25.4;
-small_filter_diameter = 4 * 25.4;
+large_filter_diameter = (5 + 3/32) * 25.4 + 3;
+small_filter_diameter = 4 * 25.4 - 3;
 base_height = 0.25 * 25.4;
-wall_height = 1.25 * 25.4;
+wall_height = 1.125 * 25.4;
 wall_thickness = 5;
 cutout_width = 1 * 25.4;
 
