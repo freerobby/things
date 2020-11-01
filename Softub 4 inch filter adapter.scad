@@ -41,4 +41,4 @@ generate_section(
     0
 );
 
-// 3", 4", 1 + 3/32" hypotenuse, 0.5"
+// Filter cap dimensions: 3" at top, 4" below flange, 1 + 3/32" hypotenuse, 0.5 base"
