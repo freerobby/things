@@ -1,23 +1,23 @@
 $fn = 100;
     
-lid_clearance_diameter = 151.0;
-lid_protruding_edge_width = 1.0;
-lid_protruding_edge_height = 7.0;
-lid_thickness = 0.5;
+lid_clearance_diameter = 104.0;
+lid_protruding_edge_width = 2.0;
+lid_protruding_edge_height = 5.0;
+lid_thickness = 1.0;
 
-center_hole_diameter = 4;
+center_hole_diameter = 3;
 
 sipping_area_small_diameter = 4;
-sipping_area_ratio = 4;
+sipping_area_ratio = 3;
 
-vent_area_ratio = 4;
-vent_each_width = 1;
-vent_each_spacing = 1.5;
-vent_area_small_diameter = (vent_each_width + vent_each_spacing) * 7 - vent_each_spacing;
+vent_area_ratio = 3;
+vent_each_width = 2;
+vent_each_spacing = 2;
+vent_area_small_diameter = (vent_each_width + vent_each_spacing) * 4 - vent_each_spacing;
 
 clasp_diameter = 20;
 
-mouth_protector_height = 18;
+mouth_protector_height = 15;
 mouth_protector_angle = 30;
 
 difference() {
@@ -34,10 +34,10 @@ difference() {
             cylinder(h = lid_thickness, d = sipping_area_small_diameter);
     
     // Vent area
-    translate([0, lid_clearance_diameter / 2 - vent_area_small_diameter * 1.5, 0])
-        scale([vent_area_ratio, 1, 1])
+    translate([0, lid_clearance_diameter / 2 - vent_area_small_diameter, 0])
             difference() {
-                cylinder(h = lid_thickness, d = vent_area_small_diameter);
+                scale([vent_area_ratio, 1, 1])
+                    cylinder(h = lid_thickness, d = vent_area_small_diameter);
                 for (i = [-vent_area_small_diameter * vent_area_ratio / 2 : vent_each_width + vent_each_spacing : vent_area_small_diameter * vent_area_ratio / 2]) {
                     translate([i, -vent_area_small_diameter / 2, 0])
                         cube([vent_each_spacing, vent_area_small_diameter, lid_thickness]);
@@ -56,9 +56,9 @@ rotate_extrude(angle = 360) {
 difference() {
     rotate([0, 0, 45])
         translate([(lid_clearance_diameter + 2 * lid_protruding_edge_width) / 2, 0, 0])
-            cylinder(h = lid_protruding_edge_height, d = clasp_diameter);
+            cylinder(h = lid_thickness + lid_protruding_edge_height, d = clasp_diameter);
     
-    cylinder(h = lid_protruding_edge_height, d = lid_clearance_diameter + 2 * lid_protruding_edge_width);
+    cylinder(h = lid_thickness + lid_protruding_edge_height, d = lid_clearance_diameter + 2 * lid_protruding_edge_width);
 }
 
 // Mouth Protector
