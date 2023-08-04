@@ -32,7 +32,7 @@ module draw_tall_wall() {
     knob_z_offsets = [23.5, 120.5];
     
     hole_radius = 2.5;
-    hole_z_offsets = [16, 72, 129];
+    hole_z_offsets = [16, 72, 128];
     
     module draw_knob(z_offset) {
         translate([-knob_protrusion, knob_center_y_offset, z_offset]) {
