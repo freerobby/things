@@ -1,6 +1,6 @@
 $fn = 20;
 
-chassis_width = 49.2125;
+chassis_width = 45;
 
 short_wall_height = 12;
 tall_wall_height = 142.875;
@@ -9,8 +9,8 @@ wall_length = 38;
 
 vertical_spacing = 10;
 
-base_width = chassis_width + 2 * wall_width + 10;
-base_length = wall_length + 10;
+base_width = chassis_width + 2 * wall_width + 20;
+base_length = wall_length + 20;
 base_height = 3;
 
 total_w = chassis_width + 2 * wall_width;
@@ -24,15 +24,15 @@ module draw_riser() {
 }
 
 module draw_tall_wall() {
-    knob_curve_diameter = 4.5;
+    knob_curve_diameter = 4;
     knob_protrusion = 4;
     knob_center_y_offset = 8 - knob_curve_diameter / 2;
     knob_flat_length = 6;
     
-    knob_z_offsets = [24, 120];
+    knob_z_offsets = [23.5, 120.5];
     
     hole_radius = 2.5;
-    hole_z_offsets = [15, 73, 129];
+    hole_z_offsets = [16, 72, 129];
     
     module draw_knob(z_offset) {
         translate([-knob_protrusion, knob_center_y_offset, z_offset]) {
@@ -76,10 +76,10 @@ module draw_fan_mount() {
     fan_y_offset = -20;
     fan_z_offset = vertical_spacing + (tall_wall_height - fan_width) / 2;
     
-    bracket_height = fan_hole_diameter * 3;
-    bracket_depth = 5;
-    
     hole_offset = (fan_width - fan_hole_spacing) / 2;
+    
+    bracket_height = hole_offset * 2;//fan_hole_diameter * 3;
+    bracket_depth = 5;
     
     // Lower bracket
     translate([
@@ -150,13 +150,12 @@ module draw_fan_mount() {
     }
     
     translate([(total_w - fan_width) / 2, fan_y_offset - fan_depth, fan_z_offset]) {
-        draw_fan();
+//        draw_fan();
     }
 }
-draw_fan_mount();
 
 
-module draw_front() {
+module draw_front(draw_fan = true) {
     color("blue") {
         draw_riser();
     }
@@ -169,9 +168,13 @@ module draw_front() {
     color("green") {
         draw_base();
     }
+    
+    if (draw_fan) {
+        draw_fan_mount();
+    }
 }
 module draw_rear() {
-    mirror([0, 1, 0]) draw_front();
+    mirror([0, 1, 0]) draw_front(false);
 }
 
 draw_front();
